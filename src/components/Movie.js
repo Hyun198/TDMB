@@ -5,27 +5,27 @@ function Movie() {
 
     const [movieList, setMoiveList] = useState([]);
 
+    const fetchData = async () => {
+        const response = await fetch('https://api.themoviedb.org/3/movie/popular?api_key=86df90b295448ab242f77216635cf4c1&language=ko-KR')
+        const data = await response.json();
+        setMoiveList(data.results);
 
-    const getMovie = () => {
-        fetch('https://api.themoviedb.org/3/movie/popular?api_key=86df90b295448ab242f77216635cf4c1&language=ko-KR')
-
-
-            .then(res => res.json())
-            .then(json => setMoiveList(json.results))
     }
-    useEffect(() => {
-        getMovie()
-    }, [])
 
-    console.log(movieList);
+    useEffect(() => {
+        fetchData()
+    }, []);
+
+
+
 
     return (
         <div>
-            {movieList.map((movie) => (
-                <img style={{ width: "300px", height: "280px", marginLeft: "10px", marginTop: "10px" }} src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="" />
-
-
+            <h1>Popular Movies</h1>
+            {movieList.map((movie, idx) => (
+                <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
             ))}
+
         </div>
     )
 }
